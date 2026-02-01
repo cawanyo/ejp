@@ -30,9 +30,9 @@ export function StatisticsClient({ initialMembers }: { initialMembers: Member[] 
   const stats = useMemo(() => {
     return {
       total: members.length,
-      thisMonth: members.filter((m) => isThisMonth(parseISO(m.registrationDate))).length,
-      thisWeek: members.filter((m) => isThisWeek(parseISO(m.registrationDate))).length,
-      thisYear: members.filter((m) => isThisYear(parseISO(m.registrationDate))).length,
+      thisMonth: members.filter((m) => isThisMonth(parseISO(m.registrationDate.toLocaleString()))).length,
+      thisWeek: members.filter((m) => isThisWeek(parseISO(m.registrationDate.toLocaleString()))).length,
+      thisYear: members.filter((m) => isThisYear(parseISO(m.registrationDate.toLocaleString()))).length,
     };
   }, [members]);
 
