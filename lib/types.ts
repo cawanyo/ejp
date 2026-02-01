@@ -51,6 +51,8 @@ export interface Family {
   id: string
   name: string
   address: string
+  latitude?: number | null;
+  longitude?: number | null;
   piloteId: string | null
   copiloteId: string | null
   pilote?: User | null
