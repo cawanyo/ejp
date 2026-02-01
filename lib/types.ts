@@ -6,8 +6,8 @@ export interface Member {
     email: string;
     phone: string;
     gender: string;
-    dateOfBirth: Date;
-    registrationDate: Date;
+    dateOfBirth: Date | String;
+    registrationDate: Date | String;
     parentName?: string | null;
     parentPhone?: string | null;
     address?: string;
