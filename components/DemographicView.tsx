@@ -28,7 +28,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
 
   // 1. Get Available Years for Dropdown
   const years = useMemo(() => {
-    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate))));
+    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate.toLocaleString()))));
     uniqueYears.add(currentYear);
     return Array.from(uniqueYears).sort((a, b) => b - a);
   }, [members, currentYear]);
@@ -36,7 +36,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
   // 2. Filter Logic
   const filteredMembers = useMemo(() => {
     return members.filter((m) => {
-      const regDate = parseISO(m.registrationDate);
+      const regDate = parseISO(m.registrationDate.toLocaleString());
 
       if (filterType === 'year') {
         return isSameYear(regDate, new Date(parseInt(selectedYear), 0, 1));
@@ -83,7 +83,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
     return ranges.map(({ range, min, max }) => ({
       range,
       count: filteredMembers.filter((m) => {
-        const age = differenceInYears(now, parseISO(m.dateOfBirth));
+        const age = differenceInYears(now, parseISO(m.dateOfBirth.toLocaleString()));
         return age >= min && age <= max;
       }).length
     }));

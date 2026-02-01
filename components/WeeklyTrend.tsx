@@ -21,7 +21,7 @@ export function WeeklyTrends({ members, colors }: WeeklyTrendsProps) {
 
   // 1. Get Available Years
   const years = useMemo(() => {
-    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate))));
+    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate.toLocaleString()))));
     uniqueYears.add(currentYear);
     return Array.from(uniqueYears).sort((a, b) => b - a);
   }, [members, currentYear]);
@@ -41,7 +41,7 @@ export function WeeklyTrends({ members, colors }: WeeklyTrendsProps) {
       weekEnd.setDate(weekEnd.getDate() + 6);
 
       const count = members.filter((m) => {
-        const regDate = parseISO(m.registrationDate);
+        const regDate = parseISO(m.registrationDate.toLocaleString());
         // Check if registration date falls within this week window
         // AND ensuring we only count stats relevant to the selected month 
         // (though standard weekly views usually just show the calendar week)

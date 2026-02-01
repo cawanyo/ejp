@@ -18,7 +18,7 @@ export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
 
   // 1. Extract available years from data
   const years = useMemo(() => {
-    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate))));
+    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate.toLocaleString()))));
     // Ensure current year is always available
     uniqueYears.add(currentYear); 
     return Array.from(uniqueYears).sort((a, b) => b - a); // Descending
@@ -36,7 +36,7 @@ export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
       const monthStr = format(month, 'yyyy-MM');
       const count = members.filter((m) => {
         // Match strictly by YYYY-MM
-        return m.registrationDate.startsWith(monthStr); 
+        return m.registrationDate.toLocaleString().startsWith(monthStr); 
       }).length;
 
       return {
