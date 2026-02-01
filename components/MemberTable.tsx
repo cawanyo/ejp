@@ -29,10 +29,10 @@ export function MembersTable({ members, onViewMember, isPending }: MembersTableP
           <Table>
             <TableHeader className="bg-white/50 dark:bg-white/5">
               <TableRow className="hover:bg-transparent border-white/5">
-                <TableHead className="w-[40%] md:w-[30%]">Member Info</TableHead>
+                <TableHead className="w-[40%] md:w-[30%]">Informations</TableHead>
                 <TableHead className="hidden md:table-cell w-[25%]">Contact</TableHead>
-                <TableHead className="hidden md:table-cell w-[15%]">Gender</TableHead>
-                <TableHead className="hidden md:table-cell w-[15%]">Registered</TableHead>
+                <TableHead className="hidden md:table-cell w-[15%]">Genre</TableHead>
+                <TableHead className="hidden md:table-cell w-[15%]">Date d'ajout</TableHead>
                 <TableHead className="w-[15%] text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
@@ -42,7 +42,7 @@ export function MembersTable({ members, onViewMember, isPending }: MembersTableP
                   <TableCell colSpan={5} className="h-64 text-center">
                     <div className="flex flex-col items-center justify-center text-muted-foreground gap-2">
                       <User className="h-12 w-12 opacity-20" />
-                      <p>No members found.</p>
+                      <p>Aucun membre trouvé.</p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -97,7 +97,7 @@ export function MembersTable({ members, onViewMember, isPending }: MembersTableP
                         onClick={() => onViewMember(member)}
                         className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
                       >
-                        View
+                        Plus
                       </Button>
                     </TableCell>
                   </TableRow>

@@ -99,7 +99,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
         <CardContent className="p-4 flex flex-col sm:flex-row gap-4 items-center">
           <div className="flex items-center gap-2 text-muted-foreground mr-auto">
             <Filter className="h-4 w-4" />
-            <span className="text-sm font-medium">Filter By:</span>
+            <span className="text-sm font-medium">Filtrer par:</span>
           </div>
 
           {/* Type Selector */}
@@ -108,9 +108,9 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="year">Specific Year</SelectItem>
-              <SelectItem value="month">Specific Month</SelectItem>
-              <SelectItem value="day">Specific Day</SelectItem>
+              <SelectItem value="year">Année</SelectItem>
+              <SelectItem value="month">Mois</SelectItem>
+              <SelectItem value="day">Jour</SelectItem>
             </SelectContent>
           </Select>
 
@@ -159,7 +159,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
         {/* Gender Chart */}
         <Card className="border-white/10 shadow-xl bg-white/40 dark:bg-black/20 backdrop-blur-xl">
           <CardHeader>
-            <CardTitle>Gender Distribution</CardTitle>
+            <CardTitle>Distribution de genre</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full flex items-center justify-center">
@@ -194,7 +194,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
         {/* Age Chart */}
         <Card className="border-white/10 shadow-xl bg-white/40 dark:bg-black/20 backdrop-blur-xl">
           <CardHeader>
-            <CardTitle>Age Groups</CardTitle>
+            <CardTitle>Group d'age</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full flex items-center justify-center">

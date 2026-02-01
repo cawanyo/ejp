@@ -14,6 +14,8 @@ import { UserPlus, Save, ArrowLeft, Loader2, Sparkles, CheckCircle2, ShieldCheck
 import Link from 'next/link';
 import { createMember } from '../actions/member';
 import { toast } from 'sonner';
+import { AddressInput } from '@/components/ui/address-input';
+import { useRouter } from 'next/navigation';
 
 // Form Validation Schema
 const formSchema = z.object({
@@ -27,11 +29,13 @@ const formSchema = z.object({
   parentName: z.string().optional(),
   parentPhone: z.string().optional(),
   notes: z.string().optional(),
+  latitude: z.number().optional(), // Add hidden fields
+  longitude: z.number().optional(),
 });
 
 export default function Register() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const router = useRouter();
   // Initialize Form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,11 +57,14 @@ export default function Register() {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      await createMember(data);
-      toast( `${data.firstName} ${data.lastName} has been welcomed to the group.`,);
+      const result = await createMember(data);
+      toast('Registration Successful!');
+        // REDIRECT TO ASSIGNMENT PAGE
+      router.push(`/members/${result.id}/assign`);
       form.reset(); // Optionally reset form after success
     } catch (error) {
       toast('Something went wrong. Please try again.');
+      console.log(error)
     } finally {
       setIsSubmitting(false);
     }
@@ -84,7 +91,7 @@ export default function Register() {
               className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Dashboard
+              Tableau de bord
             </Link>
 
             {/* Title Section */}
@@ -92,14 +99,14 @@ export default function Register() {
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-xl shadow-indigo-500/20 text-white">
                 <UserPlus className="h-8 w-8" />
               </div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-foreground lg:text-5xl">
-                Register <br />
+              <h1 className="text-2xl font-extrabold tracking-tight text-foreground lg:text-5xl">
+                Enrégistrer <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
-                  New Member
+                  Nouvelle personne
                 </span>
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Welcome to the family! Fill out the form to add a new youth profile to our database.
+              Assurez-vous que toutes les informations sont exactes avant de soumettre.
               </p>
             </div>
 
@@ -110,8 +117,8 @@ export default function Register() {
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold">Secure Information</h3>
-                  <p className="text-sm text-muted-foreground">All personal data is stored securely and only accessible by admins.</p>
+                  <h3 className="font-semibold">Information sécurisées</h3>
+                  <p className="text-sm text-muted-foreground">Uniquement disponible par les admin</p>
                 </div>
               </div>
               
@@ -120,8 +127,8 @@ export default function Register() {
                   <HeartHandshake className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold">Parent Connection</h3>
-                  <p className="text-sm text-muted-foreground">Don't forget to add parent details for minors to keep families in the loop.</p>
+                  <h3 className="font-semibold">Information des parents</h3>
+                  <p className="text-sm text-muted-foreground">Utile pour ceux qui sont encore mineurs.</p>
                 </div>
               </div>
             </div>
@@ -135,10 +142,10 @@ export default function Register() {
                   <div>
                     <CardTitle className="flex items-center gap-2 text-xl">
                       <Sparkles className="h-5 w-5 text-indigo-500" />
-                      Member Details
+                      Informations du membre
                     </CardTitle>
                     <CardDescription>
-                      Please complete all required fields (*)
+                      Veillez obligatoirement remplir les cases notées (*)
                     </CardDescription>
                   </div>
                 </div>
@@ -155,7 +162,7 @@ export default function Register() {
                         name="firstName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>First Name <span className="text-red-500">*</span></FormLabel>
+                            <FormLabel>Prénoms <span className="text-red-500">*</span></FormLabel>
                             <FormControl>
                               <Input placeholder="John" className="bg-white/50 dark:bg-black/20 focus:bg-white dark:focus:bg-black/40 transition-colors" {...field} />
                             </FormControl>
@@ -168,7 +175,7 @@ export default function Register() {
                         name="lastName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Last Name <span className="text-red-500">*</span></FormLabel>
+                            <FormLabel>Nom de famille <span className="text-red-500">*</span></FormLabel>
                             <FormControl>
                               <Input placeholder="Doe" className="bg-white/50 dark:bg-black/20 focus:bg-white dark:focus:bg-black/40 transition-colors" {...field} />
                             </FormControl>
@@ -198,7 +205,7 @@ export default function Register() {
                         name="phone"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone <span className="text-red-500">*</span></FormLabel>
+                            <FormLabel>Téléphone <span className="text-red-500">*</span></FormLabel>
                             <FormControl>
                               <Input placeholder="+1 (555) 000-0000" className="bg-white/50 dark:bg-black/20 focus:bg-white dark:focus:bg-black/40 transition-colors" {...field} />
                             </FormControl>
@@ -215,7 +222,7 @@ export default function Register() {
                         name="dateOfBirth"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Date of Birth <span className="text-red-500">*</span></FormLabel>
+                            <FormLabel>Date de naissance <span className="text-red-500">*</span></FormLabel>
                             <FormControl>
                               <Input type="date" className="bg-white/50 dark:bg-black/20 focus:bg-white dark:focus:bg-black/40 transition-colors" {...field} />
                             </FormControl>
@@ -228,7 +235,7 @@ export default function Register() {
                         name="gender"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Gender <span className="text-red-500">*</span></FormLabel>
+                            <FormLabel>Genre <span className="text-red-500">*</span></FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger className="bg-white/50 dark:bg-black/20 focus:bg-white dark:focus:bg-black/40 transition-colors">
@@ -236,9 +243,9 @@ export default function Register() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value="male">Male</SelectItem>
-                                <SelectItem value="female">Female</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
+                                <SelectItem value="male">Homme</SelectItem>
+                                <SelectItem value="female">Femme</SelectItem>
+                                <SelectItem value="other">Autre</SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />
@@ -252,9 +259,17 @@ export default function Register() {
                       name="address"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Address <span className="text-red-500">*</span></FormLabel>
+                          <FormLabel>Adresse <span className="text-red-500">*</span></FormLabel>
                           <FormControl>
-                            <Input placeholder="123 Main St, City, State" className="bg-white/50 dark:bg-black/20 focus:bg-white dark:focus:bg-black/40 transition-colors" {...field} />
+                          <AddressInput 
+                            value={field.value} 
+                            onAddressSelect={(addr, lat, lon) => {
+                              field.onChange(addr); // Set address string
+                              form.setValue('latitude', lat); // Set hidden lat
+                              form.setValue('longitude', lon); // Set hidden lon
+                            }} 
+                            placeholder="Search for a valid address..."
+                          />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -264,7 +279,7 @@ export default function Register() {
                     {/* Parent Info Section */}
                     <div className="rounded-xl border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/50 dark:bg-indigo-950/20 p-6 space-y-4">
                       <h3 className="font-semibold text-indigo-700 dark:text-indigo-300 flex items-center gap-2">
-                        Parent/Guardian Information 
+                        Personne à contacter en cas d'urgence
                         <span className="text-[10px] font-medium uppercase tracking-wider opacity-70 ml-auto bg-indigo-100 dark:bg-indigo-900 px-2 py-1 rounded-full text-indigo-700 dark:text-indigo-300">Optional</span>
                       </h3>
                       <div className="grid gap-6 sm:grid-cols-2">
@@ -273,7 +288,7 @@ export default function Register() {
                           name="parentName"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Parent Name</FormLabel>
+                              <FormLabel>Nom</FormLabel>
                               <FormControl>
                                 <Input placeholder="Jane Doe" className="bg-white/70 dark:bg-black/40 border-indigo-200 dark:border-indigo-800 focus:border-indigo-400" {...field} />
                               </FormControl>
@@ -286,7 +301,7 @@ export default function Register() {
                           name="parentPhone"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Parent Phone</FormLabel>
+                              <FormLabel>Telephone</FormLabel>
                               <FormControl>
                                 <Input placeholder="+1 (555) 000-0000" className="bg-white/70 dark:bg-black/40 border-indigo-200 dark:border-indigo-800 focus:border-indigo-400" {...field} />
                               </FormControl>
@@ -303,7 +318,7 @@ export default function Register() {
                       name="notes"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Additional Notes</FormLabel>
+                          <FormLabel>Informations supplémentaires</FormLabel>
                           <FormControl>
                             <Textarea 
                               placeholder="Any allergies, special requirements, or additional information..." 
@@ -325,12 +340,12 @@ export default function Register() {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="h-5 w-5 animate-spin" />
-                          Registering Member...
+                          Enrégistrement en cours...
                         </>
                       ) : (
                         <>
                           <Save className="h-5 w-5" />
-                          Complete Registration
+                          Enrégistrer la personne
                         </>
                       )}
                     </Button>

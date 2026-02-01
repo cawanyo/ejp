@@ -149,7 +149,7 @@ export function MembersClient({
           <div>
             <h1 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">Member Directory</h1>
             <p className="text-muted-foreground flex items-center gap-2">
-              Total Members: <span className="font-semibold text-foreground">{metadata.total}</span>
+              Nombre total de membres: <span className="font-semibold text-foreground">{metadata.total}</span>
               {isPending && <Loader2 className="h-3 w-3 animate-spin" />}
             </p>
           </div>

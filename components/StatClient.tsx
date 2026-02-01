@@ -52,8 +52,8 @@ export function StatisticsClient({ initialMembers }: { initialMembers: Member[] 
             <BarChart3 className="h-7 w-7" />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Analytics</h1>
-            <p className="text-muted-foreground">Insights into your youth ministry growth</p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Statistiques</h1>
+            <p className="text-muted-foreground">Evaluer la croissance des membres</p>
           </div>
         </div>
       </div>
@@ -61,28 +61,28 @@ export function StatisticsClient({ initialMembers }: { initialMembers: Member[] 
       {/* Overview Cards (Top Level Summary) */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          title="Total Members"
+          title="Nombre total de membres"
           value={stats.total}
           icon={<Users className="h-6 w-6" />}
           color="indigo"
           description="Total active database"
         />
         <StatCard
-          title="This Month"
+          title="Ce mois ci"
           value={stats.thisMonth}
           icon={<Calendar className="h-6 w-6" />}
           color="purple"
           trend={{ value: 12, label: 'vs last month' }}
         />
         <StatCard
-          title="This Week"
+          title="Cette semaine"
           value={stats.thisWeek}
           icon={<TrendingUp className="h-6 w-6" />}
           color="pink"
           description="New registrations"
         />
         <StatCard
-          title="This Year"
+          title="Cette année"
           value={stats.thisYear}
           icon={<UserPlus className="h-6 w-6" />}
           color="amber"
@@ -96,15 +96,15 @@ export function StatisticsClient({ initialMembers }: { initialMembers: Member[] 
           <TabsList className="bg-white/40 dark:bg-black/20 border border-white/10 backdrop-blur-xl p-1 h-auto rounded-xl flex  flex-col sm:flex-row w-full">
             <TabsTrigger value="trends" className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-sm w-full">
               <TrendingUp className="h-4 w-4 mr-2" />
-              Growth Trends
+              Tendances de croissance
             </TabsTrigger>
             <TabsTrigger value="week" className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-sm w-full">
               <TrendingUp className="h-4 w-4 mr-2" />
-              Week Trends
+              Croissance Hebdomadaire
             </TabsTrigger>
             <TabsTrigger value="demographics" className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-sm w-full">
               <PieChartIcon className="h-4 w-4 mr-2" />
-              Demographics
+              Démographie des membres
             </TabsTrigger>
           </TabsList>
         </div>

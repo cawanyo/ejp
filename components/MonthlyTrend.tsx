@@ -51,9 +51,9 @@ export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
     <Card className="border-white/10 shadow-xl bg-white/40 dark:bg-black/20 backdrop-blur-xl">
       <CardHeader className="flex flex-row items-center justify-between pb-8">
         <div className="space-y-1">
-          <CardTitle>Monthly Registrations</CardTitle>
+          <CardTitle>Enrégistrement mensuel</CardTitle>
           <CardDescription>
-            Performance for <span className="font-semibold text-foreground">{selectedYear}</span>
+            Performance de <span className="font-semibold text-foreground">{selectedYear}</span>
           </CardDescription>
         </div>
         <div className="w-[120px]">
@@ -112,7 +112,7 @@ export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
                 strokeWidth={3}
                 fillOpacity={1}
                 fill="url(#colorCount)"
-                name="Registrations"
+                name="Enrégistrements"
                 animationDuration={1000}
               />
             </AreaChart>

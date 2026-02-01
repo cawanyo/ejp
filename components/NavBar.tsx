@@ -15,9 +15,10 @@ import { useState } from 'react'
 
 const navItems = [
   { path: '/', label: 'Dashboard', icon: Home },
-  { path: '/register', label: 'Register', icon: UserPlus },
-  { path: '/members', label: 'Members', icon: Users },
-  { path: '/statistics', label: 'Statistics', icon: BarChart3 },
+  { path: '/register', label: 'Enrégistrer', icon: UserPlus },
+  { path: '/members', label: 'Membres', icon: Users },
+  { path: '/statistics', label: 'Statistiques', icon: BarChart3 },
+  { path: '/families', label: `Familles d'Impact`, icon: Users },
 ]
 
 export function Navbar() {
@@ -34,7 +35,7 @@ export function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-purple-400">
-              Youth Connect
+              Intégration
             </span>
           </div>
         </Link>

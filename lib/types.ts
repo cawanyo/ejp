@@ -12,8 +12,11 @@ export interface Member {
     parentPhone?: string | null;
     address?: string;
     notes?: string | null;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: Date | string,
+    updatedAt?: Date | string,
+
+  latitude?: number | null;
+  longitude?: number | null;
   }
   
   export interface Metadata {
@@ -29,3 +32,37 @@ export interface Member {
     members: Member[];
     metadata: Metadata;
   }
+
+
+  // Add these to lib/types.ts
+
+export interface User {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  gender: string,
+  createdAt?: Date | string,
+  updatedAt?: Date | string,
+}
+
+export interface Family {
+  id: string
+  name: string
+  address: string
+  piloteId: string | null
+  copiloteId: string | null
+  pilote?: User | null
+  copilote?: User | null
+  members: Member[]
+  _count?: {
+    members: number
+  },
+  createdAt?: Date | string,
+  updatedAt?: Date | string,
+  latitude?: number | null;
+  longitude?: number | null;
+}
+
+// Existing Member interface...

@@ -45,7 +45,7 @@ export function MemberSheet({
       <SheetContent className=" max-w-[540px] overflow-y-auto p-3 ml-3 ">
         <SheetHeader className="pb-6 border-b">
           <SheetTitle className="text-2xl font-bold flex items-center gap-2">
-            {isEditing ? 'Edit Member' : 'Member Details'}
+            {isEditing ? 'Modifier' : 'Détails'}
             <Badge variant="outline" className="ml-2 font-normal text-xs capitalize">
               {member.gender}
             </Badge>
@@ -62,7 +62,7 @@ export function MemberSheet({
           <div className="grid gap-4">
             <div className="gap-2 grid  grid-col-1 md:grid-cols-2 ">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="firstName">Prénoms</Label>
                 <Input 
                   id="firstName" 
                   value={editForm.firstName || ''} 
@@ -71,7 +71,7 @@ export function MemberSheet({
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName">Nom</Label>
                 <Input 
                   id="lastName" 
                   value={editForm.lastName || ''} 
@@ -93,7 +93,7 @@ export function MemberSheet({
 
             <div className="gap-2 grid  grid-col-1 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone</Label>
+                <Label htmlFor="phone">Télephone</Label>
                 <Input 
                   id="phone" 
                   value={editForm.phone || ''} 
@@ -102,7 +102,7 @@ export function MemberSheet({
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="dob">Date of Birth</Label>
+                <Label htmlFor="dob">Date de Naissance</Label>
                 <Input 
                   id="dob" 
                   type="date"
@@ -114,7 +114,7 @@ export function MemberSheet({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="address">Address</Label>
+              <Label htmlFor="address">Adresse</Label>
               <Input 
                 id="address" 
                 value={editForm.address || ''} 
@@ -167,15 +167,15 @@ export function MemberSheet({
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" size="sm" className="gap-2" disabled={isSaving}>
                   <Trash2 className="h-4 w-4" />
-                  Delete
+                  Supprimer
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogTitle>Vous êtes sûr?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete 
-                    <span className="font-semibold text-foreground"> {member.firstName} {member.lastName}</span> from the database.
+                    Cette action est irréversible. Cela supprimera
+                    <span className="font-semibold text-foreground"> {member.firstName} {member.lastName}</span> de la base de données.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -190,18 +190,18 @@ export function MemberSheet({
 
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Close
+              Fermer
             </Button>
             
             {isEditing ? (
               <Button onClick={onSave} disabled={isSaving} className="gap-2">
                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                Save Changes
+                Enrégistrer
               </Button>
             ) : (
               <Button onClick={onEditToggle} className="gap-2">
                 <Edit2 className="h-4 w-4" />
-                Edit Details
+                Modifier les détails
               </Button>
             )}
           </div>

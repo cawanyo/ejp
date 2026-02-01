@@ -16,6 +16,9 @@ model Member {
   dateOfBirth      DateTime
   gender           String
   address          String
+  latitude  Float?
+  longitude Float?
+
   registrationDate DateTime @default(now())
   parentName       String?
   parentPhone      String?
@@ -23,4 +26,44 @@ model Member {
   
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+
+
+  familyId         String?
+  family           Family?  @relation(fields: [familyId], references: [id])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String
+  gender    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  pilotedFamilies   Family[] @relation("Pilote")
+  copilotedFamilies Family[] @relation("Copilote")
+}
+
+model Family {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  latitude  Float?
+  longitude Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Leaders
+  piloteId   String?
+  pilote     User?   @relation("Pilote", fields: [piloteId], references: [id])
+  
+  copiloteId String?
+  copilote   User?   @relation("Copilote", fields: [copiloteId], references: [id])
+
+  // Youth Members
+  members    Member[]
 }

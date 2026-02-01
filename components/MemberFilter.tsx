@@ -38,7 +38,7 @@ export function MembersFilter({
         {/* Top Row: Search & Gender */}
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search by name, email, or phone..."
               value={searchQuery}
@@ -55,10 +55,10 @@ export function MembersFilter({
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Genders</SelectItem>
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="all">Tous</SelectItem>
+                <SelectItem value="male">Homme</SelectItem>
+                <SelectItem value="female">Femme</SelectItem>
+                <SelectItem value="other">Autre</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -68,7 +68,7 @@ export function MembersFilter({
         <div className="flex flex-col md:flex-row gap-4 items-end">
           <div className="space-y-2 w-full md:w-auto">
             <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              Filter by Registration Date
+              Filtrer par date d'ajout
             </Label>
             <div className="flex flex-wrap items-center gap-2">
               <div className="relative flex-1 md:w-[180px]">
@@ -101,7 +101,7 @@ export function MembersFilter({
               className="gap-1 text-muted-foreground hover:text-red-500 hover:bg-red-50 ml-auto md:ml-0 mb-0.5"
             >
               <X className="h-4 w-4" />
-              Clear Filters
+              Réinitialiser les filtres
             </Button>
           )}
         </div>

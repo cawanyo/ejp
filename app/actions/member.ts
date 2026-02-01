@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 export async function createMember(formData: any) {
-  await prisma.member.create({
+  return await prisma.member.create({
     data: {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -19,6 +19,8 @@ export async function createMember(formData: any) {
       parentPhone: formData.parentPhone || null,
       notes: formData.notes || null,
       registrationDate: new Date(),
+      latitude: formData.latitude, // Save Lat
+      longitude: formData.longitude,
     },
   })
 

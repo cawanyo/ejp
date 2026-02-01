@@ -62,7 +62,7 @@ export function WeeklyTrends({ members, colors }: WeeklyTrendsProps) {
     <Card className="border-white/10 shadow-xl bg-white/40 dark:bg-black/20 backdrop-blur-xl">
       <CardHeader className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 pb-8">
         <div className="space-y-1">
-          <CardTitle>Weekly Evolution</CardTitle>
+          <CardTitle>Croissance Hebdomadaire</CardTitle>
           <CardDescription>
             Breakdown for <span className="font-semibold text-foreground">{monthName} {selectedYear}</span>
           </CardDescription>
