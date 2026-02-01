@@ -6,8 +6,8 @@ export interface Member {
     email: string;
     phone: string;
     gender: string;
-    dateOfBirth: string;
-    registrationDate: string;
+    dateOfBirth: Date;
+    registrationDate: Date;
     parentName?: string | null;
     parentPhone?: string | null;
     address?: string;
@@ -61,8 +61,6 @@ export interface Family {
   },
   createdAt?: Date | string,
   updatedAt?: Date | string,
-  latitude?: number | null;
-  longitude?: number | null;
 }
 
 // Existing Member interface...
