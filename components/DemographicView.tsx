@@ -8,6 +8,7 @@ import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid
 import { format, parseISO, differenceInYears, isSameDay, isSameMonth, isSameYear, getYear } from 'date-fns';
 import { Member } from '@/lib/types';
 import { Filter } from 'lucide-react';
+import { fi } from 'date-fns/locale';
 
 interface DemographicsViewProps {
   members: Member[];
@@ -19,7 +20,6 @@ type FilterType = 'year' | 'month' | 'day';
 
 export function DemographicsView({ members, colors, pieColors }: DemographicsViewProps) {
   const currentYear = new Date().getFullYear();
-  
   // -- Filter States --
   const [filterType, setFilterType] = useState<FilterType>('year');
   const [selectedYear, setSelectedYear] = useState<string>(currentYear.toString());
@@ -28,7 +28,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
 
   // 1. Get Available Years for Dropdown
   const years = useMemo(() => {
-    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate.toLocaleString()))));
+    const uniqueYears = new Set(members.map(m => getYear(m.registrationDate)));
     uniqueYears.add(currentYear);
     return Array.from(uniqueYears).sort((a, b) => b - a);
   }, [members, currentYear]);
@@ -36,7 +36,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
   // 2. Filter Logic
   const filteredMembers = useMemo(() => {
     return members.filter((m) => {
-      const regDate = parseISO(m.registrationDate.toLocaleString());
+      const regDate = m.registrationDate;
 
       if (filterType === 'year') {
         return isSameYear(regDate, new Date(parseInt(selectedYear), 0, 1));
@@ -83,7 +83,7 @@ export function DemographicsView({ members, colors, pieColors }: DemographicsVie
     return ranges.map(({ range, min, max }) => ({
       range,
       count: filteredMembers.filter((m) => {
-        const age = differenceInYears(now, parseISO(m.dateOfBirth.toLocaleString()));
+        const age = differenceInYears(now, m.dateOfBirth);
         return age >= min && age <= max;
       }).length
     }));

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { format, parseISO, startOfMonth, endOfMonth, eachWeekOfInterval, getYear, isSameWeek } from 'date-fns';
+import { format, startOfMonth, endOfMonth, eachWeekOfInterval, getYear, isSameWeek } from 'date-fns';
 import { Member } from '@/lib/types';
 
 interface WeeklyTrendsProps {
@@ -21,7 +21,7 @@ export function WeeklyTrends({ members, colors }: WeeklyTrendsProps) {
 
   // 1. Get Available Years
   const years = useMemo(() => {
-    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate.toLocaleString()))));
+    const uniqueYears = new Set(members.map(m => getYear(m.registrationDate)));
     uniqueYears.add(currentYear);
     return Array.from(uniqueYears).sort((a, b) => b - a);
   }, [members, currentYear]);
@@ -41,7 +41,7 @@ export function WeeklyTrends({ members, colors }: WeeklyTrendsProps) {
       weekEnd.setDate(weekEnd.getDate() + 6);
 
       const count = members.filter((m) => {
-        const regDate = parseISO(m.registrationDate.toLocaleString());
+        const regDate = m.registrationDate;
         // Check if registration date falls within this week window
         // AND ensuring we only count stats relevant to the selected month 
         // (though standard weekly views usually just show the calendar week)

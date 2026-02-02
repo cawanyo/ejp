@@ -4,11 +4,12 @@ import { useMemo } from 'react';
 import { StatCard } from '@/components/StatCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Users, TrendingUp, Calendar, UserPlus, BarChart3, PieChart as PieChartIcon } from 'lucide-react';
-import { isThisMonth, isThisWeek, isThisYear, parseISO } from 'date-fns';
+import { isThisMonth, isThisWeek, isThisYear } from 'date-fns';
 import { Member } from '@/lib/types';
 import { MonthlyTrends } from './MonthlyTrend';
 import { DemographicsView } from './DemographicView';
 import { WeeklyTrends } from './WeeklyTrend';
+import { Family } from '@prisma/client';
 
 // Components
 
@@ -23,7 +24,7 @@ const COLORS = {
 
 const PIE_COLORS = [COLORS.indigo, COLORS.purple, COLORS.pink, COLORS.amber, COLORS.teal];
 
-export function StatisticsClient({ initialMembers }: { initialMembers: Member[] }) {
+export function StatisticsClient({ initialMembers, families }: { initialMembers: Member[], families: Family[] }) {
   const members = initialMembers;
 
   // General Stats (Total/Month/Week/Year) - Keep these always current relative to "Now"
@@ -111,7 +112,7 @@ export function StatisticsClient({ initialMembers }: { initialMembers: Member[] 
 
         {/* Tab 1: Monthly Trends (With Year Filter) */}
         <TabsContent value="trends" className="space-y-6">
-          <MonthlyTrends members={members} colors={COLORS} />
+          <MonthlyTrends members={members} colors={COLORS} families={families} />
         </TabsContent>
 
         {/* Tab 2: Demographics (With Year/Month/Day Filters) */}

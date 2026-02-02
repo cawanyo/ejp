@@ -4,17 +4,21 @@ import { useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { format, parseISO, startOfYear, endOfYear, eachMonthOfInterval, getYear } from 'date-fns';
+import { format, parseISO, startOfYear, endOfYear, eachMonthOfInterval, getYear, isSameMonth } from 'date-fns';
 import { Member } from '@/lib/types';
+import { Family } from '@prisma/client';
+import { Label } from './ui/label';
 
 interface MonthlyTrendsProps {
   members: Member[];
   colors: { indigo: string };
+  families: Family[];
 }
 
-export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
+export function MonthlyTrends({ members, colors, families }: MonthlyTrendsProps) {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+  const [selectedFamily, setSelectedFamily] = useState('all');
 
   // 1. Extract available years from data
   const years = useMemo(() => {
@@ -28,15 +32,19 @@ export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
   const chartData = useMemo(() => {
     const yearStart = startOfYear(new Date(parseInt(selectedYear), 0, 1));
     const yearEnd = endOfYear(new Date(parseInt(selectedYear), 0, 1));
-    
     // Generate all 12 months for the selected year
+
+    if(selectedFamily !== 'all') {
+      members = members.filter(m => m.familyId === selectedFamily);
+    }
+
     const months = eachMonthOfInterval({ start: yearStart, end: yearEnd });
 
     return months.map((month) => {
       const monthStr = format(month, 'yyyy-MM');
       const count = members.filter((m) => {
         // Match strictly by YYYY-MM
-        return m.registrationDate.toLocaleString().startsWith(monthStr); 
+        return isSameMonth(month, m.registrationDate); 
       }).length;
 
       return {
@@ -45,17 +53,19 @@ export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
         count,
       };
     });
-  }, [members, selectedYear]);
+  }, [members, selectedYear, selectedFamily]);
 
   return (
     <Card className="border-white/10 shadow-xl bg-white/40 dark:bg-black/20 backdrop-blur-xl">
-      <CardHeader className="flex flex-row items-center justify-between pb-8">
+      <CardHeader className="flex flex-row items-center justify-between pb-8 flex-wrap">
         <div className="space-y-1">
           <CardTitle>Enrégistrement mensuel</CardTitle>
           <CardDescription>
             Performance de <span className="font-semibold text-foreground">{selectedYear}</span>
           </CardDescription>
         </div>
+
+
         <div className="w-[120px]">
           <Select value={selectedYear} onValueChange={setSelectedYear}>
             <SelectTrigger className="bg-white/50 dark:bg-black/20 border-white/10">
@@ -65,6 +75,22 @@ export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
               {years.map(year => (
                 <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
               ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="w-[120px] flex gap-2">
+        <Label>FI</Label>
+          <Select value={selectedFamily} onValueChange={setSelectedFamily}>
+            
+            <SelectTrigger className="bg-white/50 dark:bg-black/20 border-white/10">
+              <SelectValue placeholder="FI" />
+            </SelectTrigger>
+            <SelectContent>
+              {families.map(family => (
+                <SelectItem key={family.id} value={family.id}>{family.name}</SelectItem>
+              ))}
+              <SelectItem value="all" defaultChecked>Tous</SelectItem>
             </SelectContent>
           </Select>
         </div>

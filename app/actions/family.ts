@@ -6,6 +6,7 @@ import { sendAssignmentNotification } from './mail'
 
 // --- USER (PILOTE/COPILOTE) ACTIONS ---
 
+
 export async function createUser(data: any) {
   try {
     await prisma.user.create({

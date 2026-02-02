@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Trash2, Edit2, Save, Loader2 } from 'lucide-react';
+import { Trash2, Edit2, Save, Loader2, CheckCircle2, Clock } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { Member } from '@/lib/types';
 
@@ -158,6 +158,36 @@ export function MemberSheet({
                 onChange={(e) => setEditForm({...editForm, notes: e.target.value})}
               />
             </div>
+          </div>
+
+          <div>
+          {!isEditing && (
+            <div className={`p-4 rounded-xl border ${member.isContacted ? 'bg-green-50/50 border-green-200 dark:bg-green-900/10 dark:border-green-900' : 'bg-orange-50/50 border-orange-200 dark:bg-orange-900/10 dark:border-orange-900'}`}>
+              <div className="flex items-start gap-3">
+                {member.isContacted ? (
+                  <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5" />
+                ) : (
+                  <Clock className="h-5 w-5 text-orange-600 mt-0.5" />
+                )}
+                <div className="space-y-1">
+                  <h4 className={`font-semibold text-sm ${member.isContacted ? 'text-green-700 dark:text-green-400' : 'text-orange-700 dark:text-orange-400'}`}>
+                    {member.isContacted ? 'Contacted by Leader' : 'Pending Leader Contact'}
+                  </h4>
+                  {member.isContacted && member.contactDate && (
+                    <p className="text-xs text-muted-foreground">
+                      On {format(member.contactDate, 'PPP p')}
+                    </p>
+                  )}
+                  {member.leaderNotes && (
+                    <div className="mt-2 pt-2 border-t border-black/5 dark:border-white/5">
+                      <p className="text-xs font-medium text-foreground mb-1">Notes Pilotes:</p>
+                      <p className="text-sm text-muted-foreground italic">"{member.leaderNotes}"</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
           </div>
         </div>
 

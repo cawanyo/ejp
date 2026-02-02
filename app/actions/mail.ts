@@ -26,6 +26,8 @@ const transporter = nodemailer.createTransport({
       console.log("No leaders assigned to this family. No email sent.");
       return;
     }
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const followUpLink = `${baseUrl}/${member.id}/follow-up/`;
   
     // 2. Compose Email
     const subject = `Nouveau membre assigné: ${member.firstName} ${member.lastName}`;
@@ -44,7 +46,9 @@ const transporter = nodemailer.createTransport({
       Notes: ${member.notes || 'None'}
   
       Veillez les contacter le plus tôt possible pour leur souhaiter la bienvenue et les intégrer dans la famille d'impact.
-  
+      >>> Completez ceci pour valider le fait que vous les aillez contacter: ${followUpLink} <<<
+
+
       Cordialement,
       Team Intégration
     `;

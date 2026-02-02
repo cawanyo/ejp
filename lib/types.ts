@@ -14,9 +14,13 @@ export interface Member {
     notes?: string | null;
     createdAt?: Date 
     updatedAt?: Date
+    familyId?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
 
-  latitude?: number | null;
-  longitude?: number | null;
+    isContacted?: boolean;
+    contactDate?: Date | null;
+    leaderNotes?: string | null;
   }
   
   export interface Metadata {

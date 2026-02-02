@@ -9,7 +9,8 @@ export function middleware(request: NextRequest) {
   // If user is not authenticated and trying to access a protected page
   if (!isAuthenticated) {
     // Allow them to visit the login page
-    if (request.nextUrl.pathname === '/login') {
+    if (request.nextUrl.pathname === '/login' || 
+      request.nextUrl.pathname.includes('/follow-up')) {
       return NextResponse.next()
     }
     

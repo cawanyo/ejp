@@ -28,6 +28,10 @@ model Member {
   updatedAt        DateTime @updatedAt
 
 
+  isContacted   Boolean   @default(false)
+  contactDate   DateTime?
+  leaderNotes   String?   
+
   familyId         String?
   family           Family?  @relation(fields: [familyId], references: [id])
 }
