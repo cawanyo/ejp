@@ -27,7 +27,7 @@ const transporter = nodemailer.createTransport({
       return;
     }
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const followUpLink = `${baseUrl}/${member.id}/follow-up/`;
+    const followUpLink = `${baseUrl}/follow-up/${member.id}/`;
   
     // 2. Compose Email
     const subject = `Nouveau membre assigné: ${member.firstName} ${member.lastName}`;
