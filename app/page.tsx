@@ -12,9 +12,9 @@ export default async function Dashboard() {
 
   const stats = {
     total: members.length,
-    thisMonth: members.filter(m => isThisMonth(parseISO(m.registrationDate))).length,
-    thisWeek: members.filter(m => isThisWeek(parseISO(m.registrationDate))).length,
-    thisYear: members.filter(m => isThisYear(parseISO(m.registrationDate))).length,
+    thisMonth: members.filter(m => isThisMonth(m.registrationDate)).length,
+    thisWeek: members.filter(m => isThisWeek(m.registrationDate)).length,
+    thisYear: members.filter(m => isThisYear(m.registrationDate)).length,
   };
 
   const recentMembers = members.slice(0, 5);
@@ -134,7 +134,7 @@ export default async function Dashboard() {
                       </div>
                     </div>
                     <div className="text-xs bg-secondary px-2 py-1 rounded-full">
-                      {format(parseISO(member.registrationDate), 'dd MMM', {
+                      {format(member.registrationDate, 'dd MMM', {
                         locale: fr,
                       })}
                     </div>
