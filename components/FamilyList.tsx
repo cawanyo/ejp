@@ -18,6 +18,7 @@ import {
 import { toast } from 'sonner';
 import { FamilySheet } from './FamilySheet';
 import { FamilyMembersSheet } from './FamilyMemberSheet';
+import Link from 'next/link';
 
 interface FamilyListProps {
   families: Family[];
@@ -118,17 +119,18 @@ export function FamilyList({ families, users, availableMembers }: FamilyListProp
                </div>
             </CardContent>
             <CardFooter className="pt-2 border-t border-white/10">
-              <Button 
-                variant="ghost" 
-                className="w-full justify-between hover:bg-white/20 dark:hover:bg-white/5"
-                onClick={() => handleManageMembers(family)}
-              >
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-orange-500" />
-                  <span className="font-semibold">{family.members.length} Members</span>
-                </div>
-                <span className="text-xs text-muted-foreground">Manage members →</span>
-              </Button>
+              <Link href={`/families/${family.id}/manage`} className="w-full">
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-between hover:bg-white/20 dark:hover:bg-white/5"
+                >
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-orange-500" />
+                    <span className="font-semibold">{family.members.length} Members</span>
+                  </div>
+                  <span className="text-xs text-muted-foreground">Manage members →</span>
+                </Button>
+              </Link>
             </CardFooter>
           </Card>
         ))}

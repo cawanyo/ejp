@@ -160,7 +160,7 @@ export function FollowUpClient({ member }: { member: any }) {
 
         {member.contactDate && (
           <p className="text-center text-xs text-muted-foreground">
-            Last updated: {format(parseISO(member.updatedAt), 'PPP p')}
+            Last updated: {format(member.updatedAt, 'PPP p')}
           </p>
         )}
       </div>

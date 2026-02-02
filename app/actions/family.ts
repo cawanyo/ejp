@@ -262,3 +262,35 @@ export async function getMemberAndClosestFamilies(memberId: string) {
 
   return { member, closestFamilies: top3 };
 }
+
+
+
+
+export async function getFamilyWithDetails(familyId: string) {
+  const [family, availableMembers] = await Promise.all([
+    prisma.family.findUnique({
+      where: { id: familyId },
+      include: {
+        pilote: true,
+        copilote: true,
+        members: {
+          orderBy: { lastName: 'asc' } // Sort members alphabetically
+        }
+      }
+    }),
+    prisma.member.findMany({
+      where: { familyId: null },
+      orderBy: { lastName: 'asc' }
+    })
+  ]);
+
+  if (!family) return null;
+
+  // Helper to serialize dates for client components
+
+
+  return {
+    family,
+    availableMembers
+  };
+}
