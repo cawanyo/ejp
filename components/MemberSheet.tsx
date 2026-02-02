@@ -53,7 +53,7 @@ export function MemberSheet({
           <SheetDescription>
             {isEditing 
               ? 'Update the member information below.' 
-              : `Registered on ${format(parseISO(member.registrationDate), 'PPP')}`
+              : `Registered on ${format(member.registrationDate, 'PPP')}`
             }
           </SheetDescription>
         </SheetHeader>
@@ -108,7 +108,7 @@ export function MemberSheet({
                   type="date"
                   value={editForm.dateOfBirth ? format(new Date(editForm.dateOfBirth), 'yyyy-MM-dd') : ''}
                   disabled={!isEditing}
-                  onChange={(e) => setEditForm({...editForm, dateOfBirth: e.target.value})}
+                  onChange={(e) => setEditForm({...editForm, dateOfBirth: new Date(e.target.value)})}
                 />
               </div>
             </div>

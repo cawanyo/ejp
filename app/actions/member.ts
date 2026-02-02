@@ -36,13 +36,7 @@ export async function getMembers() {
   })
   
   // Serialize dates to strings for Client Components
-  return members.map(m => ({
-    ...m,
-    dateOfBirth: m.dateOfBirth.toISOString(),
-    registrationDate: m.registrationDate.toISOString(),
-    createdAt: m.createdAt.toISOString(),
-    updatedAt: m.updatedAt.toISOString(),
-  }))
+  return members
 }
 
 
@@ -107,10 +101,10 @@ export async function getPaginatedMembers({
   return {
     members: members.map(m => ({
       ...m,
-      dateOfBirth: m.dateOfBirth.toISOString(),
-      registrationDate: m.registrationDate.toISOString(),
-      createdAt: m.createdAt.toISOString(),
-      updatedAt: m.updatedAt.toISOString(),
+      dateOfBirth: m.dateOfBirth,
+      registrationDate: m.registrationDate,
+      createdAt: m.createdAt,
+      updatedAt: m.updatedAt,
     })),
     metadata: {
       total,

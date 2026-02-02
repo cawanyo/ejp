@@ -87,7 +87,7 @@ export function MembersTable({ members, onViewMember, isPending }: MembersTableP
                     </TableCell>
                     
                     <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
-                      {format(parseISO(member.registrationDate), 'MMM d, yyyy')}
+                      {format(member.registrationDate, 'MMM d, yyyy')}
                     </TableCell>
                     
                     <TableCell className="text-right">

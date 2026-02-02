@@ -6,14 +6,14 @@ export interface Member {
     email: string;
     phone: string;
     gender: string;
-    dateOfBirth: Date | String | string;
-    registrationDate: Date | String | string;
+    dateOfBirth: Date 
+    registrationDate: Date 
     parentName?: string | null;
     parentPhone?: string | null;
     address?: string;
     notes?: string | null;
-    createdAt?: Date | string,
-    updatedAt?: Date | string,
+    createdAt?: Date 
+    updatedAt?: Date
 
   latitude?: number | null;
   longitude?: number | null;
@@ -43,8 +43,8 @@ export interface User {
   email: string
   phone: string
   gender: string,
-  createdAt?: Date | string,
-  updatedAt?: Date | string,
+  createdAt?: Date 
+  updatedAt?: Date 
 }
 
 export interface Family {
@@ -61,8 +61,8 @@ export interface Family {
   _count?: {
     members: number
   },
-  createdAt?: Date | string,
-  updatedAt?: Date | string,
+  createdAt?: Date 
+  updatedAt?: Date 
 }
 
 // Existing Member interface...

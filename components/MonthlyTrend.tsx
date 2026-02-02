@@ -18,7 +18,7 @@ export function MonthlyTrends({ members, colors }: MonthlyTrendsProps) {
 
   // 1. Extract available years from data
   const years = useMemo(() => {
-    const uniqueYears = new Set(members.map(m => getYear(parseISO(m.registrationDate.toLocaleString()))));
+    const uniqueYears = new Set(members.map(m => getYear(m.registrationDate)));
     // Ensure current year is always available
     uniqueYears.add(currentYear); 
     return Array.from(uniqueYears).sort((a, b) => b - a); // Descending
