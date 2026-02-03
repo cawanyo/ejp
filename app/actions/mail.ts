@@ -47,7 +47,7 @@ const transporter = nodemailer.createTransport({
       Notes: ${member.notes || 'None'}
   
       Veuillez les contacter le plus tôt possible pour leur souhaiter la bienvenue et les intégrer dans la famille d'impact.
-      >>> Completez ceci pour valider le fait que vous les ayez contacter: ${followUpLink} <<<
+      >>> Merci de valider le fait que vous les ayez contactés vien ce lien: ${followUpLink} <<<
 
 
       Cordialement,
