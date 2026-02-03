@@ -70,7 +70,7 @@ export function FamilyList({ families, users, availableMembers }: FamilyListProp
 
         {/* Family Cards */}
         {families.map((family) => (
-          <Card key={family.id} className="border-white/10 shadow-lg bg-white/40 dark:bg-black/20 backdrop-blur-xl flex flex-col h-[280px]">
+          <Card key={family.id} className="border-white/10 shadow-lg bg-white/40 dark:bg-black/20 backdrop-blur-xl flex flex-col sm:h-[280px] my-3">
             <CardHeader className="pb-4">
               <div className="flex justify-between items-start">
                 <div>
@@ -118,7 +118,7 @@ export function FamilyList({ families, users, availableMembers }: FamilyListProp
                  </div>
                </div>
             </CardContent>
-            <CardFooter className="pt-2 border-t border-white/10">
+            <CardFooter className="pt-3 border-t border-white/10">
               <Link href={`/families/${family.id}/manage`} className="w-full">
                 <Button 
                   variant="ghost" 

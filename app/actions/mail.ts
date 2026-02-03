@@ -34,10 +34,11 @@ const transporter = nodemailer.createTransport({
     const text = `
       Bonjour Cher Pilote/Copilote,
   
-      Un nouveau membre vient d'être assigné à vos FI  "${family.name}".
+      Un nouveau membre vient d'être assigné à votre Famille d'Impact  "${family.name}".
   
-      --- Member Details ---
-      Nom: ${member.firstName} ${member.lastName}
+      ---  Details ---
+      Nom:  ${member.lastName}
+      Prénom: ${member.firstName}
       Téléphone: ${member.phone}
       Email: ${member.email}
       Adresse: ${member.address}
@@ -46,7 +47,7 @@ const transporter = nodemailer.createTransport({
       Notes: ${member.notes || 'None'}
   
       Veillez les contacter le plus tôt possible pour leur souhaiter la bienvenue et les intégrer dans la famille d'impact.
-      >>> Completez ceci pour valider le fait que vous les aillez contacter: ${followUpLink} <<<
+      >>> Completez ceci pour valider le fait que vous les ayez contacter: ${followUpLink} <<<
 
 
       Cordialement,

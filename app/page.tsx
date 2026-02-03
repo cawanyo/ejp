@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { format, isThisMonth, isThisWeek, isThisYear, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { getMembers } from './actions/member';
+export const dynamic = 'force-dynamic';
 
 export default async function Dashboard() {
   const members = await getMembers();
