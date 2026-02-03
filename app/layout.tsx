@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Youth Connect",
-  description: "Youth Ministry Registration System",
+  title: "Intégration",
+  description: "Intégration dans les FI ICC Toulouse",
 };
 
 export default function RootLayout({
