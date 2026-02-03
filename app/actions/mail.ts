@@ -46,7 +46,7 @@ const transporter = nodemailer.createTransport({
       Parent: ${member.parentName || 'N/A'} (${member.parentPhone || 'N/A'})
       Notes: ${member.notes || 'None'}
   
-      Veillez les contacter le plus tôt possible pour leur souhaiter la bienvenue et les intégrer dans la famille d'impact.
+      Veuillez les contacter le plus tôt possible pour leur souhaiter la bienvenue et les intégrer dans la famille d'impact.
       >>> Completez ceci pour valider le fait que vous les ayez contacter: ${followUpLink} <<<
 
 
