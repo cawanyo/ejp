@@ -13,6 +13,7 @@ import { updateMemberFollowUp } from '@/app/actions/follow-up';
 import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export function FollowUpClient({ member }: { member: any }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,8 +21,9 @@ export function FollowUpClient({ member }: { member: any }) {
   // Form State
   const [isContacted, setIsContacted] = useState(member.isContacted);
   const [notes, setNotes] = useState(member.leaderNotes || '');
-
+  const router = useRouter();
   const handleSave = async () => {
+
     setIsSubmitting(true);
     try {
       const res = await updateMemberFollowUp(member.id, {
@@ -31,6 +33,7 @@ export function FollowUpClient({ member }: { member: any }) {
 
       if (res.success) {
         toast( "Merci !" );
+        router.push('/thank-you');
       } else {
         toast("Error");
       }
@@ -46,7 +49,7 @@ export function FollowUpClient({ member }: { member: any }) {
       
       <div className="max-w-2xl mx-auto space-y-6">
         <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
+          <ArrowLeft className="mr-2 h-4 w-4" /> Retourner au Dashboard
         </Link>
 
         {/* Member Info Card */}
@@ -112,7 +115,7 @@ export function FollowUpClient({ member }: { member: any }) {
             
             <div className="flex items-center justify-between p-4 rounded-xl border border-indigo-100 bg-indigo-50/30 dark:border-indigo-900 dark:bg-indigo-900/10">
               <div className="space-y-0.5">
-                <Label className="text-base font-semibold">Contact Status</Label>
+                <Label className="text-base font-semibold">Satus</Label>
                 <p className="text-sm text-muted-foreground">
                   Cocher si vous avez contacté ce membre.
                 </p>
@@ -151,7 +154,7 @@ export function FollowUpClient({ member }: { member: any }) {
                  </>
                ) : (
                  <>
-                   <Save className="mr-2 h-4 w-4" /> Save Report
+                   <Save className="mr-2 h-4 w-4" /> Enrégistrer
                  </>
                )}
              </Button>
