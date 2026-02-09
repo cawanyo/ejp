@@ -21,9 +21,9 @@ import { useRouter } from 'next/navigation';
 const formSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
   lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
+  email: z.string().optional(),
   phone: z.string().min(10, 'Phone number must be at least 10 characters'),
-  dateOfBirth: z.string().min(1, 'Date of birth is required'),
+  dateOfBirth: z.string().optional(),
   gender: z.enum(['male', 'female', 'other']).refine(value => value !== undefined, { message: 'Please select a gender' }),
   address: z.string().min(5, 'Address must be at least 5 characters'),
   parentName: z.string().optional(),
@@ -192,7 +192,7 @@ export default function Register() {
                         name="email"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Email <span className="text-red-500">*</span></FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
                               <Input type="email" placeholder="john@example.com" className="bg-white/50 dark:bg-black/20 focus:bg-white dark:focus:bg-black/40 transition-colors" {...field} />
                             </FormControl>
@@ -222,7 +222,7 @@ export default function Register() {
                         name="dateOfBirth"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Date de naissance <span className="text-red-500">*</span></FormLabel>
+                            <FormLabel>Date de naissance</FormLabel>
                             <FormControl>
                               <Input type="date" className="bg-white/50 dark:bg-black/20 focus:bg-white dark:focus:bg-black/40 transition-colors" {...field} />
                             </FormControl>

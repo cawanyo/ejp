@@ -35,7 +35,7 @@ export function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-purple-400">
-              Intégration
+              Intégration MIFI Occitanie
             </span>
           </div>
         </Link>
