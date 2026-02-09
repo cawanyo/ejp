@@ -35,21 +35,19 @@ export default function ThankYouPage() {
 
             <div className="space-y-2">
               <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-                Thank You!
+                    Merci
               </h1>
               <p className="text-muted-foreground text-lg">
-                Your report has been saved successfully.
+                Le rapport a été soumis avec succès. Nous apprécions votre contribution pour aider les nouvelles familles d'impact à se sentir accueillies et soutenues.
               </p>
             </div>
 
-            <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-100 dark:border-green-900/50 text-sm text-green-800 dark:text-green-300">
-              <p>Your feedback helps us ensure every new member feels welcomed and supported.</p>
-            </div>
+ 
 
             <div className="pt-4 w-full">
               <Link href="/" className="w-full">
                 <Button className="w-full h-12 text-base bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg shadow-green-500/20">
-                  Return to Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                  Aller Dashaboard <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>

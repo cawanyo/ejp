@@ -130,7 +130,7 @@ export function AssignClient({ member, families }: { member: any, families: any[
 
 
       <Dialog open={successData.show} onOpenChange={(open) => !open && handleFinish()}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md p-3">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-green-600">
               <CheckCircle2 className="h-6 w-6" /> Assignment Complete
@@ -162,7 +162,7 @@ export function AssignClient({ member, families }: { member: any, families: any[
             )}
           </div>
 
-          <DialogFooter className="sm:justify-between flex-row items-center">
+          <DialogFooter className="flex-row items-center justify-between flew-wrap">
             <Button variant="ghost" onClick={handleFinish} className="text-muted-foreground">
               Passer
             </Button>
