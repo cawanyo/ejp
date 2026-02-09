@@ -7,6 +7,19 @@ import { sendAssignmentNotification } from './mail'
 // --- USER (PILOTE/COPILOTE) ACTIONS ---
 
 
+function formatForWhatsApp(phone: string) {
+  // Remove all non-digit characters
+  let clean = phone.replace(/\D/g, '');
+
+  // If it starts with '0', remove it and add '33' (France)
+  if (clean.startsWith('0')) {
+    return `33${clean.substring(1)}`;
+  }
+  
+  // If it's already international (starts with 33), keep it
+  return clean;
+}
+
 export async function createUser(data: any) {
   try {
     await prisma.user.create({
@@ -123,14 +136,35 @@ export async function addMemberToFamily(familyId: string, memberId: string) {
       }
     })
 
-    if (family) {
-      // We run this without 'await' if we don't want to delay the UI response, 
-      // OR await it if we want to ensure it sent. 
-      // Usually, it is better to await to catch errors, but for UX speed, we can let it run.
-      await sendAssignmentNotification(family, member);
+    // if (family) {
+    //   // We run this without 'await' if we don't want to delay the UI response, 
+    //   // OR await it if we want to ensure it sent. 
+    //   // Usually, it is better to await to catch errors, but for UX speed, we can let it run.
+    //   await sendAssignmentNotification(family, member);
+    // }
+
+    let whatsappLink = null;
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const followUpLink = `${baseUrl}/follow-up/${member.id}/`;
+    if (family && family.pilote && family.pilote.phone) {
+      const phone = formatForWhatsApp(family.pilote.phone);
+      const text = `
+      Bonjour ${family.pilote.firstName},
+
+      Nouveau membre assigné à votre famille "${family.name}" ! 🏠
+
+      👤 *${member.firstName} ${member.lastName}*
+      📞 ${member.phone}
+      📍 ${member.address}
+
+      Merci de prendre contact pour l'accueillir !
+      >>> Merci de valider le fait que vous les ayez contactés vien ce lien: ${followUpLink} <<<
+      `;
+      // Create the universal WhatsApp link
+      whatsappLink = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
     }
     revalidatePath('/families')
-    return { success: true }
+    return { success: true, whatsappLink }
   } catch (error) {
     return { success: false, error: 'Failed to add member' }
   }

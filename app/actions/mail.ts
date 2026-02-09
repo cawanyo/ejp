@@ -69,3 +69,7 @@ const transporter = nodemailer.createTransport({
       // Don't throw error here to avoid blocking the UI assignment success
     }
   }
+
+
+
+ 

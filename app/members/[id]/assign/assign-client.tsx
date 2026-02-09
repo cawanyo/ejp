@@ -5,23 +5,29 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Users, CheckCircle2, ArrowRight } from 'lucide-react';
+import { MapPin, Users, CheckCircle2, ArrowRight, MessageCircle, Send } from 'lucide-react';
 import { addMemberToFamily } from '@/app/actions/family';
 import { toast } from 'sonner';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+
 
 
 export function AssignClient({ member, families }: { member: any, families: any[] }) {
   const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [successData, setSuccessData] = useState<{ show: boolean, link: string | null }>({ show: false, link: null });
 
   const handleAssign = async (familyId: string, familyName: string) => {
     setLoadingId(familyId);
     try {
       const res = await addMemberToFamily(familyId, member.id);
       if (res.success) {
+        setSuccessData({ 
+          show: true, 
+          link: res.whatsappLink || null 
+        });
         toast(`Assignment Complete ${member.firstName} has been added to ${familyName}.`,
        );
-        router.push('/members'); // Done, go to list
       } else {
         toast("Error");
       }
@@ -32,6 +38,17 @@ export function AssignClient({ member, families }: { member: any, families: any[
 
   const handleSkip = () => {
     router.push('/members');
+  };
+  const handleFinish = () => {
+    router.push('/members');
+  };
+
+  const openWhatsApp = () => {
+    if (successData.link) {
+      window.open(successData.link, '_blank');
+      // Optional: Close modal after clicking
+      // handleFinish(); 
+    }
   };
 
   return (
@@ -108,6 +125,56 @@ export function AssignClient({ member, families }: { member: any, families: any[
           </Button>
         </div>
       </div>
+
+
+
+
+      <Dialog open={successData.show} onOpenChange={(open) => !open && handleFinish()}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-green-600">
+              <CheckCircle2 className="h-6 w-6" /> Assignment Complete
+            </DialogTitle>
+            <DialogDescription>
+              {member.firstName} a bien été ajouté à la famille.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="py-6 flex flex-col items-center justify-center space-y-4">
+            <div className="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center">
+              <MessageCircle className="h-8 w-8 text-green-600" />
+            </div>
+            <p className="text-center font-medium">
+              Notifier le pilote via WhatsApp pour lui communiquer les informations du nouveau membre et faciliter la prise de contact.
+            </p>
+            
+            {successData.link ? (
+              <Button 
+                onClick={openWhatsApp}
+                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold h-12 text-lg shadow-lg shadow-green-500/20"
+              >
+                <Send className="mr-2 h-5 w-5" /> Envoyez le message WhatsApp
+              </Button>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center">
+                (No phone number available for the Pilote)
+              </p>
+            )}
+          </div>
+
+          <DialogFooter className="sm:justify-between flex-row items-center">
+            <Button variant="ghost" onClick={handleFinish} className="text-muted-foreground">
+              Passer
+            </Button>
+            <Button variant="outline" onClick={handleFinish}>
+              Terminer
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+
+
     </div>
   );
 }
