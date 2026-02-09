@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   if (!isAuthenticated) {
     // Allow them to visit the login page
     if (request.nextUrl.pathname === '/login' || 
-      request.nextUrl.pathname.includes('/follow-up')) {
+      request.nextUrl.pathname.includes('/follow-up') || request.nextUrl.pathname === '/thank-you' ) {
       return NextResponse.next()
     }
     
