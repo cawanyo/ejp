@@ -13,7 +13,7 @@ export async function createMember(formData: any) {
         lastName: formData.lastName,
         email: formData.email,
         phone: formData.phone,
-        dateOfBirth: new Date(formData.dateOfBirth),
+        dateOfBirth: formData.dateOfBirth =='' ? new Date('01/01/1900') : new Date(formData.dateOfBirth),
         gender: formData.gender,
         address: formData.address,
         latitude: formData.latitude,

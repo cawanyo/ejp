@@ -58,7 +58,7 @@ export default function Register() {
     setIsSubmitting(true);
     try {
       const result = await createMember(data);
-  
+      console.log(result)
       if (result.success && result.memberId) {
         toast.success('Registration Successful!');
         form.reset();
@@ -67,6 +67,7 @@ export default function Register() {
       } else {
         // Display the specific error message returned from server
         toast.error(result.error || 'Something went wrong.');
+       
       }
     } catch (error) {
       // This catches network errors (e.g., internet disconnected)

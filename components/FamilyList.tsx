@@ -102,30 +102,30 @@ export function FamilyList({ initialFamilies, users, availableMembers, initialMe
   return (
     <>
 
-<div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search 10,000+ families..." 
-            className="pl-9 bg-white/40 dark:bg-black/20 border-white/10 backdrop-blur-sm"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          {isLoading && (
-             <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />
-             </div>
-          )}
-          {!isLoading && searchQuery && (
-            <button 
-              onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
-        </div>
+    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="relative flex-1">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input 
+          placeholder="Search 10,000+ families..." 
+          className="pl-9 bg-white/40 dark:bg-black/20 border-white/10 backdrop-blur-sm"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        {isLoading && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />
+            </div>
+        )}
+        {!isLoading && searchQuery && (
+          <button 
+            onClick={() => setSearchQuery('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
       </div>
+    </div>
 
 
 
