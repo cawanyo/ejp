@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { sendAssignmentNotification } from './mail'
+import { Prisma } from '@prisma/client';
 
 // --- USER (PILOTE/COPILOTE) ACTIONS ---
 
@@ -118,6 +119,59 @@ export async function getFamilies() {
   })
 }
 
+
+
+export async function getPaginatedFamilies({
+  page = 1,
+  pageSize = 9,
+  query = '',
+}: {
+  page?: number
+  pageSize?: number
+  query?: string
+}) {
+  const skip = (page - 1) * pageSize;
+  
+  // Build the search filter
+  const where: Prisma.FamilyWhereInput = query
+    ? {
+        OR: [
+          { name: { contains: query, mode: 'insensitive' } },
+          { address: { contains: query } },
+          { pilote: { lastName: { contains: query } } }, // Search by Pilote Name
+        ],
+      }
+    : {};
+
+  // Fetch Data & Count in parallel
+  const [families, total] = await Promise.all([
+    prisma.family.findMany({
+      where,
+      skip,
+      take: pageSize,
+      include: {
+        pilote: true,
+        copilote: true,
+        members: true, // Be careful if members list is huge, maybe just count?
+      },
+      orderBy: { name: 'asc' },
+    }),
+    prisma.family.count({ where }),
+  ]);
+
+  return {
+    families,
+    metadata: {
+      total,
+      page,
+      pageSize,
+      totalPages: Math.ceil(total / pageSize),
+      hasNextPage: page < Math.ceil(total / pageSize),
+      hasPrevPage: page > 1,
+    }
+  }
+
+}
 // --- MEMBERSHIP MANAGEMENT ---
 
 export async function addMemberToFamily(familyId: string, memberId: string) {
@@ -326,5 +380,52 @@ export async function getFamilyWithDetails(familyId: string) {
   return {
     family,
     availableMembers
+  };
+}
+
+
+
+
+export async function getPaginatedUsers({
+  page = 1,
+  pageSize = 8, // Leaders cards are smaller, maybe 8 fits well
+  query = '',
+}: {
+  page?: number
+  pageSize?: number
+  query?: string
+}) {
+  const skip = (page - 1) * pageSize;
+
+  // Case-Insensitive Search
+  const where: Prisma.UserWhereInput = query
+    ? {
+        OR: [
+          { firstName: { contains: query, mode: 'insensitive' } },
+          { lastName: { contains: query, mode: 'insensitive' } },
+          { email: { contains: query, mode: 'insensitive' } },
+          { phone: { contains: query } }, // Phone usually doesn't need mode: insensitive
+        ],
+      }
+    : {};
+
+  const [users, total] = await Promise.all([
+    prisma.user.findMany({
+      where,
+      skip,
+      take: pageSize,
+      orderBy: { lastName: 'asc' },
+    }),
+    prisma.user.count({ where }),
+  ]);
+
+  return {
+    users,
+    metadata: {
+      total,
+      page,
+      pageSize,
+      totalPages: Math.ceil(total / pageSize),
+    }
   };
 }

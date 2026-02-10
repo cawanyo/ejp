@@ -6,28 +6,50 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 export async function createMember(formData: any) {
-  return await prisma.member.create({
-    data: {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      phone: formData.phone,
-      dateOfBirth: new Date(formData.dateOfBirth),
-      gender: formData.gender,
-      address: formData.address,
-      parentName: formData.parentName || null,
-      parentPhone: formData.parentPhone || null,
-      notes: formData.notes || null,
-      registrationDate: new Date(),
-      latitude: formData.latitude, // Save Lat
-      longitude: formData.longitude,
-    },
-  })
+  try {
+    const member = await prisma.member.create({
+      data: {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        dateOfBirth: new Date(formData.dateOfBirth),
+        gender: formData.gender,
+        address: formData.address,
+        latitude: formData.latitude,
+        longitude: formData.longitude,
+        parentName: formData.parentName || null,
+        parentPhone: formData.parentPhone || null,
+        notes: formData.notes || null,
+        registrationDate: new Date(),
+      },
+    });
 
-  revalidatePath('/members')
-  revalidatePath('/')
-  revalidatePath('/statistics')
-  redirect('/members')
+    revalidatePath('/members');
+    revalidatePath('/statistics');
+    
+    // Return Success object
+    return { success: true, memberId: member.id };
+
+  } catch (error) {
+    console.error("Registration Error:", error);
+
+    // 1. Handle Unique Constraint Violation (e.g. Email already exists)
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        return { 
+          success: false, 
+          error: "This email address is already registered." 
+        };
+      }
+    }
+
+    // 2. Handle Validation or other errors
+    return { 
+      success: false, 
+      error: "Database error: Failed to create member." 
+    };
+  }
 }
 
 export async function getMembers() {

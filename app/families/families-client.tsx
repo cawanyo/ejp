@@ -10,13 +10,21 @@ import { UsersList } from '@/components/UserList';
 
 interface FamiliesClientProps {
   initialFamilies: Family[];
+  metadata: {
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    
+  };
+  userMetadata: any;
   initialUsers: User[];
   availableMembers: Member[];
 }
 
-export function FamiliesClient({ initialFamilies, initialUsers, availableMembers }: FamiliesClientProps) {
+export function FamiliesClient({ initialFamilies, initialUsers, availableMembers, metadata, userMetadata }: FamiliesClientProps) {
   return (
-    <div className="relative min-h-screen pb-10 space-y-6 animate-in fade-in duration-500">
+    <div className="relative min-h-screen pb-10 space-y-6 animate-in fade-in duration-500 md:min-w-200" >
       
       {/* Background Ambience */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -53,14 +61,18 @@ export function FamiliesClient({ initialFamilies, initialUsers, availableMembers
 
         <TabsContent value="families" className="space-y-6">
           <FamilyList 
-            families={initialFamilies} 
-            users={initialUsers} 
+            initialFamilies={initialFamilies} 
+            users={initialUsers}
+            initialMetadata={metadata}
             availableMembers={availableMembers} 
           />
         </TabsContent>
 
         <TabsContent value="users" className="space-y-6">
-          <UsersList users={initialUsers} />
+          <UsersList
+            initialUsers={initialUsers} 
+            initialMetadata={userMetadata}
+          />
         </TabsContent>
       </Tabs>
     </div>

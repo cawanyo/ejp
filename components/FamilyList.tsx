@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, MapPin, User, Users, MoreHorizontal, Edit, Trash2 } from 'lucide-react';
+import { Plus, MapPin, User, Users, MoreHorizontal, Edit, Trash2, ChevronLeft, ChevronRight, Search, Loader2, X } from 'lucide-react';
 import { Family, User as UserType, Member } from '@/lib/types';
 
-import { deleteFamily } from '@/app/actions/family';
+import { deleteFamily, getPaginatedFamilies } from '@/app/actions/family';
 
 import {
   DropdownMenu,
@@ -19,17 +19,62 @@ import { toast } from 'sonner';
 import { FamilySheet } from './FamilySheet';
 import { FamilyMembersSheet } from './FamilyMemberSheet';
 import Link from 'next/link';
+import { useDebounce } from 'use-debounce';
+import { Input } from './ui/input';
 
 interface FamilyListProps {
-  families: Family[];
+  initialFamilies: Family[];
+  initialMetadata: {
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+  };
   users: UserType[];
   availableMembers: Member[];
 }
 
-export function FamilyList({ families, users, availableMembers }: FamilyListProps) {
+export function FamilyList({ initialFamilies, users, availableMembers, initialMetadata }: FamilyListProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isMembersSheetOpen, setIsMembersSheetOpen] = useState(false);
   const [selectedFamily, setSelectedFamily] = useState<Family | null>(null);
+  const [metadata, setMetadata] = useState(initialMetadata);
+  const [families, setFamilies] = useState<Family[]>(initialFamilies);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery] = useDebounce(searchQuery, 300); // Wait 300ms after typing
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      // Call Server Action directly
+      const result = await getPaginatedFamilies({
+        page: page,
+        query: debouncedQuery,
+        pageSize: 9
+      });
+      
+      setFamilies(result.families);
+      setMetadata(result.metadata);
+    } catch (error) {
+      console.error("Failed to fetch families", error);
+      toast("Error loading data");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [page, debouncedQuery, toast]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // Reset to Page 1 when searching
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedQuery]);
+
 
   const handleEdit = (family: Family) => {
     setSelectedFamily(family);
@@ -56,6 +101,34 @@ export function FamilyList({ families, users, availableMembers }: FamilyListProp
 
   return (
     <>
+
+<div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input 
+            placeholder="Search 10,000+ families..." 
+            className="pl-9 bg-white/40 dark:bg-black/20 border-white/10 backdrop-blur-sm"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {isLoading && (
+             <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />
+             </div>
+          )}
+          {!isLoading && searchQuery && (
+            <button 
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+      </div>
+
+
+
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {/* Create Card */}
         <button 
@@ -136,6 +209,29 @@ export function FamilyList({ families, users, availableMembers }: FamilyListProp
         ))}
       </div>
 
+      {metadata.totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={page === 1 || isLoading}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <span className="text-sm text-muted-foreground mx-2">
+            Page {page} of {metadata.totalPages}
+          </span>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setPage(p => Math.min(metadata.totalPages, p + 1))}
+            disabled={page === metadata.totalPages || isLoading}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
       <FamilySheet 
         open={isSheetOpen} 
         onOpenChange={setIsSheetOpen} 

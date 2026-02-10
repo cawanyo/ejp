@@ -58,18 +58,24 @@ export default function Register() {
     setIsSubmitting(true);
     try {
       const result = await createMember(data);
-      toast('Registration Successful!');
-        // REDIRECT TO ASSIGNMENT PAGE
-      router.push(`/members/${result.id}/assign`);
-      form.reset(); // Optionally reset form after success
+  
+      if (result.success && result.memberId) {
+        toast.success('Registration Successful!');
+        form.reset();
+        // Perform the redirect on the CLIENT side
+        router.push(`/members/${result.memberId}/assign`);
+      } else {
+        // Display the specific error message returned from server
+        toast.error(result.error || 'Something went wrong.');
+      }
     } catch (error) {
-      toast('Something went wrong. Please try again.');
-      console.log(error)
+      // This catches network errors (e.g., internet disconnected)
+      toast.error('Network error. Please try again.');
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
   };
-
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden">
       
