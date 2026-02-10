@@ -197,7 +197,9 @@ export async function addMemberToFamily(familyId: string, memberId: string) {
     //   await sendAssignmentNotification(family, member);
     // }
 
-    let whatsappLink = null;
+    let whatsappLinkPilote = null;
+    let whatsappLinkCopilote = null;
+
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
     const followUpLink = `${baseUrl}/follow-up/${member.id}/`;
     if (family && family.pilote && family.pilote.phone) {
@@ -212,13 +214,32 @@ export async function addMemberToFamily(familyId: string, memberId: string) {
       📍 ${member.address}
 
       Merci de prendre contact pour l'accueillir !
-      >>> Merci de valider le fait que vous les ayez contactés vien ce lien: ${followUpLink} <<<
+      >>> Merci de valider le fait que vous les ayez contactés via ce lien: ${followUpLink} <<<
       `;
       // Create the universal WhatsApp link
-      whatsappLink = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+      whatsappLinkPilote = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+    }
+
+
+    if (family && family.copilote && family.copilote.phone) {
+      const phone = formatForWhatsApp(family.copilote.phone);
+      const text = `
+      Bonjour ${family.copilote.firstName},
+
+      Nouveau membre assigné à votre famille "${family.name}" ! 🏠
+
+      👤 *${member.firstName} ${member.lastName}*
+      📞 ${member.phone}
+      📍 ${member.address}
+
+      Merci de prendre contact pour l'accueillir !
+      >>> Merci de valider le fait que vous les ayez contactés via ce lien: ${followUpLink} <<<
+      `;
+      // Create the universal WhatsApp link
+      whatsappLinkCopilote = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
     }
     revalidatePath('/families')
-    return { success: true, whatsappLink }
+    return { success: true, whatsappLinkPilote, whatsappLinkCopilote }
   } catch (error) {
     return { success: false, error: 'Failed to add member' }
   }

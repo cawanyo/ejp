@@ -15,7 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 export function AssignClient({ member, families }: { member: any, families: any[] }) {
   const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
-  const [successData, setSuccessData] = useState<{ show: boolean, link: string | null }>({ show: false, link: null });
+  const [successData, setSuccessData] = useState<{ show: boolean, piloteLink: string | null, copiloteLink: string | null }>({ show: false, piloteLink: null, copiloteLink: null });
 
   const handleAssign = async (familyId: string, familyName: string) => {
     setLoadingId(familyId);
@@ -24,7 +24,8 @@ export function AssignClient({ member, families }: { member: any, families: any[
       if (res.success) {
         setSuccessData({ 
           show: true, 
-          link: res.whatsappLink || null 
+          piloteLink: res.whatsappLinkPilote|| null, 
+          copiloteLink: res.whatsappLinkCopilote || null
         });
         toast(`Assignment Complete ${member.firstName} has been added to ${familyName}.`,
        );
@@ -43,12 +44,10 @@ export function AssignClient({ member, families }: { member: any, families: any[
     router.push('/members');
   };
 
-  const openWhatsApp = () => {
-    if (successData.link) {
-      window.open(successData.link, '_blank');
-      // Optional: Close modal after clicking
-      // handleFinish(); 
-    }
+  const openWhatsApp = (link:string | null) => {
+      if(link)
+        window.open(link, '_blank');
+
   };
 
   return (
@@ -145,16 +144,25 @@ export function AssignClient({ member, families }: { member: any, families: any[
               <MessageCircle className="h-8 w-8 text-green-600" />
             </div>
             <p className="text-center font-medium">
-              Notifier le pilote via WhatsApp pour lui communiquer les informations du nouveau membre et faciliter la prise de contact.
+              Notifier le pilote ou le copilote via WhatsApp pour lui communiquer les informations du nouveau membre et faciliter la prise de contact.
             </p>
             
-            {successData.link ? (
-              <Button 
-                onClick={openWhatsApp}
-                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold h-12 text-lg shadow-lg shadow-green-500/20"
-              >
-                <Send className="mr-2 h-5 w-5" /> Envoyez le message WhatsApp
-              </Button>
+            {successData.piloteLink || successData.copiloteLink ? (
+              <div className=' flex flex-col gap-2 '>
+                  <Button 
+                  onClick={() => openWhatsApp(successData.piloteLink)}
+                  className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold h-12 text-lg shadow-lg shadow-green-500/20"
+                  >
+                    <Send className="mr-2 h-5 w-5" /> Envoyer au Pilote
+                  </Button>
+                <Button 
+                  onClick={() => openWhatsApp(successData.copiloteLink)}
+                  className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold h-12 text-lg shadow-lg shadow-green-500/20"
+                >
+                  <Send className="mr-2 h-5 w-5" /> Envoyer au Copilote
+                </Button>
+              </div>
+              
             ) : (
               <p className="text-sm text-muted-foreground text-center">
                 (No phone number available for the Pilote)
