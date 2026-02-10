@@ -171,7 +171,7 @@ export function MemberSheet({
                 )}
                 <div className="space-y-1">
                   <h4 className={`font-semibold text-sm ${member.isContacted ? 'text-green-700 dark:text-green-400' : 'text-orange-700 dark:text-orange-400'}`}>
-                    {member.isContacted ? 'Contacted by Leader' : 'Pending Leader Contact'}
+                    {member.isContacted ? 'Contacté par le leader' : "En attente d'être contacté"}
                   </h4>
                   {member.isContacted && member.contactDate && (
                     <p className="text-xs text-muted-foreground">
