@@ -11,7 +11,7 @@ model Member {
   id               String   @id @default(uuid())
   firstName        String
   lastName         String
-  email            String   @unique
+  email            String   
   phone            String
   dateOfBirth      DateTime
   gender           String

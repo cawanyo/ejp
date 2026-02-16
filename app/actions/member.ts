@@ -11,7 +11,7 @@ export async function createMember(formData: any) {
       data: {
         firstName: formData.firstName,
         lastName: formData.lastName,
-        email: formData.email == '' ? null : formData.email,
+        email: formData.email,
         phone: formData.phone,
         dateOfBirth: formData.dateOfBirth =='' ? new Date('01/01/1900') : new Date(formData.dateOfBirth),
         gender: formData.gender,
